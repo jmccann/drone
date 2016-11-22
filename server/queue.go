@@ -152,7 +152,7 @@ func HandleUpdate(c context.Context, message *stomp.Message) {
 	select {
 	case <-done:
 	case <-time.After(30 * time.Second):
-		logrus.Errorf("Unable to read logs from broker. Timeout. %s", err)
+		logrus.Errorf("Unable to read logs from broker. Timeout. Buffer size %d. %s#%d", buf.Len(), work.Repo.FullName, build.Number)
 		return
 	}
 
