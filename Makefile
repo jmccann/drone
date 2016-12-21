@@ -16,11 +16,19 @@ deps_frontend:
 	go get -u github.com/drone/drone-ui/dist
 
 deps_backend:
-	go get -u golang.org/x/tools/cmd/cover
+	RC=1 ; \
+	while [ $$RC -ne 0 ] ; do \
+	  go get -u golang.org/x/tools/cmd/cover ; \
+		RC=$$? ; \
+	done
 	go get -u github.com/jteeuwen/go-bindata/...
 	go get -u github.com/elazarl/go-bindata-assetfs/...
 	go get -u github.com/drone/mq/...
-	go get -u github.com/tidwall/redlog
+	RC=1 ; \
+	while [ $$RC -ne 0 ] ; do \
+	  go get -u github.com/tidwall/redlog ; \
+		RC=$$? ; \
+	done
 
 gen: gen_template gen_migrations
 
