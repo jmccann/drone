@@ -300,19 +300,21 @@ func server(c *cli.Context) error {
 		middleware.Broker(c),
 	)
 
+	http.Handle("/", handler)
+
 	// start the server with tls enabled
 	if c.String("server-cert") != "" {
 		return http.ListenAndServeTLS(
 			c.String("server-addr"),
 			c.String("server-cert"),
 			c.String("server-key"),
-			handler,
+			nil,
 		)
 	}
 
 	// start the server without tls enabled
 	return http.ListenAndServe(
 		c.String("server-addr"),
-		handler,
+		nil,
 	)
 }

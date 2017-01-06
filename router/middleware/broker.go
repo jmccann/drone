@@ -1,7 +1,9 @@
 package middleware
 
 import (
+	"net/http"
 	"os"
+	"path"
 	"sync"
 
 	handlers "github.com/drone/drone/server"
@@ -41,6 +43,9 @@ func Broker(cli *cli.Context) gin.HandlerFunc {
 		server.WithCredentials("x-token", secret),
 	)
 	client := broker.Client()
+
+	http.HandleFunc(path.Join("/mq/meta/sessions"), broker.HandleSessions)
+	http.HandleFunc(path.Join("/mq/meta/destinations"), broker.HandleDests)
 
 	var once sync.Once
 	return func(c *gin.Context) {
